@@ -19,11 +19,12 @@ public class FinishLineScript : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         RacingGameScript.bRaceFinished = true;
         audioSource.Play();
-        
+        GetComponent<MeshRenderer>().enabled = false;
+
     }
 
 }
