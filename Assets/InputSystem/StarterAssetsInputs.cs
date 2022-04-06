@@ -13,6 +13,8 @@ namespace StarterAssets
 		public bool menuButton;
 		public bool activateButton;
 
+		public bool startButton;
+
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -21,6 +23,11 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 #endif
+
+		public void OnStart(InputValue value)
+        {
+			StartInput(value.isPressed);
+        }
 
 		public void OnMenu(InputValue value)
         {
@@ -83,6 +90,11 @@ namespace StarterAssets
 		public void MenuInput(bool newMenuState)
         {
 			menuButton = newMenuState;
+        }
+
+		public void StartInput(bool NewStartState)
+        {
+			startButton = NewStartState;
         }
 
 
