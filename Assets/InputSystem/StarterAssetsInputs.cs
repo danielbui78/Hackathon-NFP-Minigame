@@ -10,6 +10,8 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool menuButton;
+		public bool activateButton;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -19,6 +21,16 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 #endif
+
+		public void OnMenu(InputValue value)
+        {
+			MenuInput(value.isPressed);
+        }
+
+		public void OnActivate(InputValue value)
+        {
+			ActivateInput(value.isPressed);
+        }
 
 		public void OnMove(InputValue value)
 		{
@@ -43,7 +55,6 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 
-
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
@@ -63,6 +74,17 @@ namespace StarterAssets
 		{
 			sprint = newSprintState;
 		}
+
+		public void ActivateInput(bool newActivateState)
+        {
+			activateButton = newActivateState;
+        }
+
+		public void MenuInput(bool newMenuState)
+        {
+			menuButton = newMenuState;
+        }
+
 
 #if !UNITY_IOS || !UNITY_ANDROID
 
