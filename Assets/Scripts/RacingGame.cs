@@ -11,13 +11,34 @@ public class RacingGame : MonoBehaviour
     private TMPro.TextMeshProUGUI ReadySetGoText;
     public GameObject ReadySetGoObject;
     //    public GameObject StopWatchTimerObject;
+    public TapToRunController tapToRunController;
 
     public bool bRaceFinished = false;
+
+    public GameObject PressStartObject;
+
+    public StarterAssets.StarterAssetsInputs _input;
 
     // Start is called before the first frame update
     void Start()
     {
         fCountDownToStart = 3.0f;
+
+        if (tapToRunController != null)
+        {
+            tapToRunController.enabled = false;
+        }
+
+        if (StopWatchText != null)
+        {
+            StopWatchText.enabled = false;
+        }
+
+        if (PressStartObject != null)
+            PressStartObject.SetActive(true);
+
+        if (ReadySetGoObject != null)
+            ReadySetGoObject.SetActive(false);
 
 //        if (StopWatchTimerObject != null)
 //            StopWatchText = StopWatchTimerObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -27,6 +48,14 @@ public class RacingGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PressStartObject.active)
+        {
+            if (_input.startButton)
+                PressStartObject.SetActive(false);
+
+            return;
+        }
+
         if (bRaceStarted == false)
         {
             if (fCountDownToStart <= 1.0f)
@@ -70,20 +99,35 @@ public class RacingGame : MonoBehaviour
 
         }
 
-        if (bRaceStarted)
+        if (bRaceStarted && !bRaceFinished)
         {
+
+            if (StopWatchText != null)
+            {
+                StopWatchText.enabled = true;
+            }
+
             fStopWatchTime += Time.deltaTime;
+            if (tapToRunController != null)
+            {
+                tapToRunController.enabled = true;
+            }
+
         }
 
         if (StopWatchText != null)
         {
-            string label = "Timer: ";
+            string label = "Time: ";
             StopWatchText.text = label + fStopWatchTime.ToString();
         }
 
         if (bRaceFinished)
         {
             // DONE!
+            if (tapToRunController != null)
+            {
+                tapToRunController.fDragCoefficient = 0.97f;
+            }
         }
 
 
