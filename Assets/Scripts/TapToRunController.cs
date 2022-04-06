@@ -9,7 +9,11 @@ public class TapToRunController : MonoBehaviour
 	public float fCurrentSpeed = 0.0f;
 	public float fSpeedIncreasePerTap = 0.1f;
 	public float fDragForce = -0.01f;
+	public float fDragCoefficient = 0.99f;
 	public bool bIsPressed = false;
+	public const float fTapRefractoryConstant = 0.500f;
+	public float fTapRefractoryTimer = 0.0f;
+	public bool bReadyToTap = true;
 
 	[Header("Player")]
 	[Tooltip("Move speed of the character in m/s")]
@@ -121,12 +125,16 @@ public class TapToRunController : MonoBehaviour
 		JumpAndGravity();
 		GroundedCheck();
 		Move();
+
 	}
 
 	private void FixedUpdate()
 	{
 		if (fCurrentSpeed > 0)
-			fCurrentSpeed += fDragForce;
+        {
+//			fCurrentSpeed += fDragForce;
+			fCurrentSpeed *= fDragCoefficient;
+		}
 	}
 
 	private void LateUpdate()
@@ -181,25 +189,51 @@ public class TapToRunController : MonoBehaviour
 		// Detect Tapping
 		bool bWasTapped = false;
 
+		if (fTapRefractoryTimer > 0.0f)
+        {
+			fTapRefractoryTimer -= Time.deltaTime;
+			bReadyToTap = false;
+        }
+		else
+        {
+			bReadyToTap = true;
+        }
+/*
 		if (_input.move.y == 0.0f)
         {
 			bIsPressed = false;
         }
-		else if (_input.move.y > 0.0f )
+		else if (_input.move.y > 0.0f)
         {
-			if (bIsPressed == false)
+			if (bIsPressed == false && bReadyToTap == true)
             {
 				bWasTapped = true;
-            } 
-
+				fTapRefractoryTimer = fTapRefractoryConstant;
+            }
 			bIsPressed = true;
         }
+*/
+
+		// NOTE: Activate Button must be set to "Value" type in the Unity Input System Package in order to be correctly reset to false
+		bIsPressed = _input.activateButton;
+		if (bIsPressed && bReadyToTap)
+        {
+			bWasTapped = true;
+			fTapRefractoryTimer = fTapRefractoryConstant;
+		}
 
 		// set target speed based on move speed, sprint speed and if sprint is pressed
 		// gradually increase run speed be cumulatively adding increases from taps of _input.sprint
 		if (bWasTapped)
 		{
-			fCurrentSpeed += fSpeedIncreasePerTap;
+			if (fCurrentSpeed <= 0.0f)
+            {
+				fCurrentSpeed += fSpeedIncreasePerTap * 3;
+			}
+			else
+            {
+				fCurrentSpeed += fSpeedIncreasePerTap;
+			}
 		}
 
 		float targetSpeed = fCurrentSpeed;
