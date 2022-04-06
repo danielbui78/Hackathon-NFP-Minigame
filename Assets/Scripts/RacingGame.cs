@@ -7,22 +7,91 @@ public class RacingGame : MonoBehaviour
     public float fStopWatchTime = 0.0f;
     public float fCountDownToStart = 3.0f;
     public bool bRaceStarted = false;
+    public bool bRaceFinished = false;
+    public bool bStartGame = false;
+
     public TMPro.TextMeshProUGUI StopWatchText;
     private TMPro.TextMeshProUGUI ReadySetGoText;
     public GameObject ReadySetGoObject;
     //    public GameObject StopWatchTimerObject;
+    public GameObject startButton;
+
     public TapToRunController tapToRunController;
-
-    public bool bRaceFinished = false;
-
-    public GameObject PressStartObject;
-
     public StarterAssets.StarterAssetsInputs _input;
+
+    public GameObject EndGamePanel;
+
+    public GameObject finishLine;
+    public List<GameObject> avatarList;
+
+    public void RestartGame()
+    {
+        // Reset Timer
+        bRaceStarted = false;
+        bRaceFinished = false;
+        bStartGame = false;
+
+        fStopWatchTime = 0.0f;
+
+        // reset finishLine
+        if (finishLine != null)
+        {
+            finishLine.GetComponent<MeshRenderer>().enabled = true;
+        }
+
+        // Reset runner position and state (idle animation)
+        int runnerIndex;
+        float fLaneWidth = 2.0f;
+        for (runnerIndex = 0; runnerIndex < avatarList.Count; runnerIndex++)
+        {
+            var avatar = avatarList[runnerIndex];
+            if (avatar != null)
+            {
+                avatar.transform.localPosition = Vector3.zero;
+                avatar.transform.Translate(runnerIndex * fLaneWidth, 0, 0, Space.Self);
+            }
+            
+        }
+
+        // Reset tapToRunController
+        if (tapToRunController != null)
+        {
+            // reset tapToRunController
+            tapToRunController.fCurrentSpeed = 0.0f;
+            tapToRunController.fTapRefractoryTimer = 0.0f;
+            tapToRunController.fDragCoefficient = 0.995f;
+        }
+
+        _input.cursorLocked = true;
+        _input.SetCursorState(_input.cursorLocked);
+
+        Start();
+
+    }
+
+    public void StartGame()
+    {
+        bStartGame = true;
+
+        _input.cursorLocked = true;
+        _input.SetCursorState(_input.cursorLocked);
+
+        startButton.SetActive(false);
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        startButton.SetActive(true);
+
+        _input.cursorLocked = false;
+        _input.SetCursorState(_input.cursorLocked);
+
         fCountDownToStart = 3.0f;
+
+        if (EndGamePanel != null)
+            EndGamePanel.SetActive(false);
 
         if (tapToRunController != null)
         {
@@ -33,9 +102,6 @@ public class RacingGame : MonoBehaviour
         {
             StopWatchText.enabled = false;
         }
-
-        if (PressStartObject != null)
-            PressStartObject.SetActive(true);
 
         if (ReadySetGoObject != null)
             ReadySetGoObject.SetActive(false);
@@ -48,11 +114,8 @@ public class RacingGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PressStartObject.active)
+        if (bStartGame == false)
         {
-            if (_input.startButton)
-                PressStartObject.SetActive(false);
-
             return;
         }
 
@@ -63,6 +126,7 @@ public class RacingGame : MonoBehaviour
                 if (ReadySetGoText != null)
                 {
                     ReadySetGoText.text = "Go!";
+                    bRaceStarted = true;
                 }
 
             }
@@ -86,17 +150,17 @@ public class RacingGame : MonoBehaviour
                     ReadySetGoText.text = "Ready...";
                 }
             }
-            if (fCountDownToStart <= 0)
+        }
+        if (fCountDownToStart <= 0)
+        {
+            if (ReadySetGoObject != null)
             {
-                bRaceStarted = true;
-                if (ReadySetGoObject != null)
-                {
-                    ReadySetGoObject.SetActive(false);
-                }
-
+                ReadySetGoObject.SetActive(false);
             }
+        }
+        else
+        {
             fCountDownToStart -= Time.deltaTime;
-
         }
 
         if (bRaceStarted && !bRaceFinished)
@@ -127,7 +191,21 @@ public class RacingGame : MonoBehaviour
             if (tapToRunController != null)
             {
                 tapToRunController.fDragCoefficient = 0.97f;
+
+                _input.cursorLocked = false;
+                _input.SetCursorState(_input.cursorLocked);
+
+                if (EndGamePanel != null)
+                {
+                    if (tapToRunController.fCurrentSpeed <= 0.01f)
+                    {
+                        EndGamePanel.SetActive(true);
+                    }
+
+                }
+
             }
+
         }
 
 

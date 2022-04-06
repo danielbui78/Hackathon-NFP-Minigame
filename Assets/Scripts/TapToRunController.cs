@@ -9,7 +9,7 @@ public class TapToRunController : MonoBehaviour
 	public float fCurrentSpeed = 0.0f;
 	public float fSpeedIncreasePerTap = 0.1f;
 	public float fDragForce = -0.01f;
-	public float fDragCoefficient = 0.99f;
+	public float fDragCoefficient = 0.995f;
 	public bool bIsPressed = false;
 	public const float fTapRefractoryConstant = 0.500f;
 	public float fTapRefractoryTimer = 0.0f;
