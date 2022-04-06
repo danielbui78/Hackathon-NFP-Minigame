@@ -12,6 +12,8 @@ public class RacingGame : MonoBehaviour
     public GameObject ReadySetGoObject;
     //    public GameObject StopWatchTimerObject;
 
+    public bool bRaceFinished = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +80,12 @@ public class RacingGame : MonoBehaviour
             string label = "Timer: ";
             StopWatchText.text = label + fStopWatchTime.ToString();
         }
+
+        if (bRaceFinished)
+        {
+            // DONE!
+        }
+
 
     }
 }
