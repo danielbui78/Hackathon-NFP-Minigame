@@ -5,10 +5,11 @@ using UnityEngine;
 public class BallLauncher : MonoBehaviour
 {
     [SerializeField] private Rigidbody ball;
-    [SerializeField] private Transform target;
     [SerializeField] private float launchHeight = 25;
     [SerializeField] private float gravity = -18;
     [SerializeField] private bool debugPath;
+
+    private Transform ballTarget;
 
     private void Start()
     {
@@ -17,19 +18,15 @@ public class BallLauncher : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Launch();
-        }
-
         if (debugPath)
         {
             DrawPath();
         }
     }
 
-    public void Launch()
+    public void Launch(Transform target)
     {
+        ballTarget = target;
         Physics.gravity = Vector3.up * gravity;
         ball.position = transform.position;
         ball.useGravity = true;
@@ -38,8 +35,8 @@ public class BallLauncher : MonoBehaviour
 
     private LaunchData CalculateLaunchData()
     {
-        float displacementY = target.position.y - ball.position.y;
-        Vector3 displacementXZ = new Vector3(target.position.x - ball.position.x, 0, target.position.z - ball.position.z);
+        float displacementY = ballTarget.position.y - ball.position.y;
+        Vector3 displacementXZ = new Vector3(ballTarget.position.x - ball.position.x, 0, ballTarget.position.z - ball.position.z);
         float time = Mathf.Sqrt(-2 * launchHeight / gravity) + Mathf.Sqrt(2 * (displacementY - launchHeight) / gravity);
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * launchHeight);
         Vector3 velocityXZ = displacementXZ / time;
