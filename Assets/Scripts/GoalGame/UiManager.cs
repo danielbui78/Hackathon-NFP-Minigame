@@ -50,9 +50,9 @@ public class UiManager : MonoBehaviour
         gameUi.SetActive(false);
         endUi.SetActive(true);
         
-        resultsText.text = isWin ? "Congratulations!" : "Better luck next time.";
-        var winStr = "You have scored all " + goalCounter.GetScore().ToString() + " goals with " + goalCounter.GetAttemptsRemaining().ToString() + " goal attempts remaining.";
-        var lossStr = "You have only scored " + goalCounter.GetScore().ToString() + " goals and exhausted all the provided attempts. Required score is " + goalCounter.GetReqScore().ToString();
+        resultsText.text = isWin ? "Congratulations!" : "Better luck next time";
+        var winStr = "You have scored all " + goalCounter.GetScore().ToString() + " goal(s) with " + goalCounter.GetAttemptsRemaining().ToString() + " goal attempts remaining.";
+        var lossStr = "You have only scored " + goalCounter.GetScore().ToString() + " goal(s) and exhausted all the provided attempts. Required score is " + goalCounter.GetReqScore().ToString();
         statsText.text = isWin ? winStr : lossStr;
     }
 }

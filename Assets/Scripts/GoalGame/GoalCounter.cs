@@ -8,6 +8,7 @@ public class GoalCounter : MonoBehaviour
     [SerializeField] private int availableAttempts;
     [SerializeField] private GameRunner gameRunner;
     [SerializeField] private UiManager uiManager;
+    [SerializeField] private AudioManager audioManager;
     private int curScore;
     private int turnCount;
 
@@ -24,30 +25,37 @@ public class GoalCounter : MonoBehaviour
 
     public void UpdateScore()
     {
+        audioManager.PlayGoalSound();
         curScore++;
         if (curScore > reqScore) curScore = reqScore;
         if (curScore == reqScore)
         {
+            turnCount++;
+            gameRunner.ResetBallPosition();
+            
             // Win
+            audioManager.PlayWinnerSound();
             gameRunner.StopGame();
             uiManager.LoadEndUi(true);
         }
-        UpdateTurns();
+        else
+        {
+            UpdateTurns(true);
+        }
     }
 
-    public void UpdateTurns()
+    public void UpdateTurns(bool noSound = false)
     {
+        if (!noSound) audioManager.PlayBlockSound();
         turnCount++;
         var remAttempts = GetAttemptsRemaining();
         if (remAttempts <= 0){
             // Loss
+            audioManager.PlayLooserSound();
             gameRunner.StopGame();
             uiManager.LoadEndUi(false);
         }
-        else
-        {
-            gameRunner.ResetBallPosition();
-        }
+        gameRunner.ResetBallPosition();
     }
 
     public int GetScore()
