@@ -100,7 +100,8 @@ public class RacingGame : MonoBehaviour
 
         if (tapToRunController != null)
         {
-            tapToRunController.enabled = false;
+//            tapToRunController.enabled = false;
+            tapToRunController.bDisableMove = true;
         }
 
         if (StopWatchText != null)
@@ -179,7 +180,8 @@ public class RacingGame : MonoBehaviour
             fStopWatchTime += Time.deltaTime;
             if (tapToRunController != null)
             {
-                tapToRunController.enabled = true;
+//                tapToRunController.enabled = true;
+                tapToRunController.bDisableMove = false;
             }
 
         }

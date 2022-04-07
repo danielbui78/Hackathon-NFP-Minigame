@@ -14,6 +14,7 @@ public class TapToRunController : MonoBehaviour
 	public const float fTapRefractoryConstant = 0.500f;
 	public float fTapRefractoryTimer = 0.0f;
 	public bool bReadyToTap = true;
+	public bool bDisableMove = false;
 
 	[Header("Player")]
 	[Tooltip("Move speed of the character in m/s")]
@@ -186,6 +187,9 @@ public class TapToRunController : MonoBehaviour
 
 	void Move()
 	{
+		if (bDisableMove)
+			return;
+
 		// Detect Tapping
 		bool bWasTapped = false;
 
