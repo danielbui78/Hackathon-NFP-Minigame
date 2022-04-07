@@ -273,9 +273,9 @@ public class RacingGame : MonoBehaviour
 
     }
 
-    public void ExitGame()
+    public void ReturnToMainMenu()
     {
-        Application.Quit();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     // Start is called before the first frame update

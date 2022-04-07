@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1090.0942, g: 1071.835, b: 1291.0762, a: 1}
+  m_IndirectSpecularColor: {r: 1098.6123, g: 1092.4697, b: 1341.0859, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -950,7 +950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -3588,7 +3588,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1223237034}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1959048906}
+        m_TargetAssemblyTypeName: GameRunner, Assembly-CSharp
+        m_MethodName: ReturnToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1223237034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4340,7 +4352,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1368612690}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1959048906}
+        m_TargetAssemblyTypeName: GameRunner, Assembly-CSharp
+        m_MethodName: ReturnToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1368612690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5144,7 +5168,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4cab5c093547161428bfd9e26cc00d31, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.503
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6662,7 +6686,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -6756,7 +6780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1973179815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7196,7 +7220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 2032758619}
   ballKickClip: {fileID: 8300000, guid: 24ecf3c4df1395742859433c1904ec0e, type: 3}
-  gruntClip: {fileID: 8300000, guid: ccdcae426b1623c4e9b4c6ca859548e6, type: 3}
+  gruntClip: {fileID: 8300000, guid: c5f525d4abd14ca408df7fc268eae8ec, type: 3}
   goalClip: {fileID: 8300000, guid: c5dd6e2198ebc534ba561f4cf50d567c, type: 3}
   blockClip: {fileID: 8300000, guid: 7122efe5c18faf541a623798bc5b6070, type: 3}
   winnerClip: {fileID: 8300000, guid: 5153140df0a78f44d8058a66d004a5d9, type: 3}

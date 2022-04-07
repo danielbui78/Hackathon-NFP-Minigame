@@ -22,6 +22,11 @@ public class GameRunner : MonoBehaviour
     private bool isLaunched;
     private bool isRunning;
 
+    public void ReturnToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
     public enum TargetSection
     {
         None,
