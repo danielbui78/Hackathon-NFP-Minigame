@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GoalCounter : MonoBehaviour
 {
-    [SerializeField] private int maxScore;
+    [SerializeField] private int reqScore;
+    [SerializeField] private int availableAttempts;
     [SerializeField] private GameRunner gameRunner;
     [SerializeField] private UiManager uiManager;
-    [SerializeField] private int curScore;
-    [SerializeField] private int turnCount;
+    private int curScore;
+    private int turnCount;
 
     private void Start()
     {
@@ -24,10 +25,11 @@ public class GoalCounter : MonoBehaviour
     public void UpdateScore()
     {
         curScore++;
-        if (curScore > maxScore) curScore = maxScore;
-        if (curScore == maxScore)
+        if (curScore > reqScore) curScore = reqScore;
+        if (curScore == reqScore)
         {
-            // Winner
+            // Win
+            gameRunner.StopGame();
             uiManager.LoadEndUi(true);
         }
         UpdateTurns();
@@ -36,7 +38,16 @@ public class GoalCounter : MonoBehaviour
     public void UpdateTurns()
     {
         turnCount++;
-        gameRunner.ResetBallPosition();
+        var remAttempts = GetAttemptsRemaining();
+        if (remAttempts <= 0){
+            // Loss
+            gameRunner.StopGame();
+            uiManager.LoadEndUi(false);
+        }
+        else
+        {
+            gameRunner.ResetBallPosition();
+        }
     }
 
     public int GetScore()
@@ -51,11 +62,11 @@ public class GoalCounter : MonoBehaviour
 
     public int GetAttemptsRemaining()
     {
-        return 0;
+        return availableAttempts - turnCount;
     }
 
-    public int GetMaxScore()
+    public int GetReqScore()
     {
-        return maxScore;
+        return reqScore;
     }
 }

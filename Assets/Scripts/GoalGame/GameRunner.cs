@@ -74,7 +74,7 @@ public class GameRunner : MonoBehaviour
 
     private void Update()
     {
-        if (isRunning && Input.GetKeyDown(KeyCode.K))
+        if (isRunning && Input.GetKeyDown(KeyCode.Space))
         {
             if (!isLaunched) MovePlayerToKick();
         }

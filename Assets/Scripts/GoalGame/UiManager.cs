@@ -23,7 +23,7 @@ public class UiManager : MonoBehaviour
     {
         if (gameUi.activeInHierarchy)
         {
-            attemptsText.text = goalCounter.GetTurnCount().ToString();
+            attemptsText.text = goalCounter.GetAttemptsRemaining().ToString();
             scoreText.text = goalCounter.GetScore().ToString();
         }
     }
@@ -41,7 +41,7 @@ public class UiManager : MonoBehaviour
         gameUi.SetActive(true);
         endUi.SetActive(false);
 
-        targetText.text = goalCounter.GetMaxScore().ToString();
+        targetText.text = goalCounter.GetReqScore().ToString();
     }
 
     public void LoadEndUi(bool isWin)
@@ -52,7 +52,7 @@ public class UiManager : MonoBehaviour
         
         resultsText.text = isWin ? "Congratulations!" : "Better luck next time.";
         var winStr = "You have scored all " + goalCounter.GetScore().ToString() + " goals with " + goalCounter.GetAttemptsRemaining().ToString() + " goal attempts remaining.";
-        var lossStr = "You have only scored " + goalCounter.GetScore().ToString() + " goals and exhausted all the provided attempts. Required score is " + goalCounter.GetMaxScore().ToString();
+        var lossStr = "You have only scored " + goalCounter.GetScore().ToString() + " goals and exhausted all the provided attempts. Required score is " + goalCounter.GetReqScore().ToString();
         statsText.text = isWin ? winStr : lossStr;
     }
 }
