@@ -10,6 +10,10 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool menuButton;
+		public bool activateButton;
+
+		public bool startButton;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -19,6 +23,21 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 #endif
+
+		public void OnStart(InputValue value)
+        {
+			StartInput(value.isPressed);
+        }
+
+		public void OnMenu(InputValue value)
+        {
+			MenuInput(value.isPressed);
+        }
+
+		public void OnActivate(InputValue value)
+        {
+			ActivateInput(value.isPressed);
+        }
 
 		public void OnMove(InputValue value)
 		{
@@ -43,7 +62,6 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 
-
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
@@ -64,14 +82,30 @@ namespace StarterAssets
 			sprint = newSprintState;
 		}
 
+		public void ActivateInput(bool newActivateState)
+        {
+			activateButton = newActivateState;
+        }
+
+		public void MenuInput(bool newMenuState)
+        {
+			menuButton = newMenuState;
+        }
+
+		public void StartInput(bool NewStartState)
+        {
+			startButton = NewStartState;
+        }
+
+
 #if !UNITY_IOS || !UNITY_ANDROID
 
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			SetCursorState(cursorLocked);
+//			SetCursorState(cursorLocked);
 		}
 
-		private void SetCursorState(bool newState)
+		public void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
