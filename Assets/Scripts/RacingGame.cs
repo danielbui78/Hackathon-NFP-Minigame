@@ -23,12 +23,24 @@ public class RacingGame : MonoBehaviour
 
     public AudioSource RaceMusic;
 
-
     public GameObject finishLine;
     public List<GameObject> avatarList;
 
+    [SerializeField]
+    public float[] fBestTimes = new float[10];
+    [SerializeField]
+    public string[] sNameForBestTime = new string[10];
+
+    [SerializeField]
+    public string sUsername = "";
+
     public void SendBestTimeToDiscord()
     {
+        // query for username
+
+        // record best times
+        float fBestTime = fBestTimes[0];
+
         string sMessageToServer = "Best Time for " + sUsername + ": " + fBestTime.ToString();
         GetComponent<DiscordWebhook>().SendMessageToServer(sMessageToServer);
     }
@@ -223,6 +235,13 @@ public class RacingGame : MonoBehaviour
 
         if (bRaceFinished)
         {
+            // Caclulate Best Times
+            int timeIndex;
+            for (timeIndex = 0; timeIndex < fBestTimes.Length; timeIndex++)
+            {
+
+            }
+
             // DONE!
             RaceMusic.Stop();
             if (tapToRunController != null)
