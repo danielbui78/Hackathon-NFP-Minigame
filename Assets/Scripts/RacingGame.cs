@@ -27,6 +27,28 @@ public class RacingGame : MonoBehaviour
     public GameObject finishLine;
     public List<GameObject> avatarList;
 
+    public void SendBestTimeToDiscord()
+    {
+        string sMessageToServer = "Best Time for " + sUsername + ": " + fBestTime.ToString();
+        GetComponent<DiscordWebhook>().SendMessageToServer(sMessageToServer);
+    }
+
+    public void InitializeLeaderBoard()
+    {
+        //Social.localUser.userName = Query Username
+        Social.localUser.Authenticate(success => {
+            if (success)
+            {
+                Debug.Log("Authentication successful");
+                string userInfo = "Username: " + Social.localUser.userName +
+                    "\nUser ID: " + Social.localUser.id +
+                    "\nIsUnderage: " + Social.localUser.underage;
+                Debug.Log(userInfo);
+            }
+            else
+                Debug.Log("Authentication failed");
+        });
+    }
 
     public void RestartGame()
     {
@@ -92,6 +114,7 @@ public class RacingGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitializeLeaderBoard();
         RaceMusic.Stop();
         startButton.SetActive(true);
 
