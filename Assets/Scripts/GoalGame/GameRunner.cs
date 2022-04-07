@@ -16,6 +16,8 @@ public class GameRunner : MonoBehaviour
     [SerializeField] private GameObject playerObj;
     [SerializeField] private GameObject goalieObj;
 
+    [SerializeField] private AudioManager audioManager;
+
     private TargetSection targetSection;
     private bool isLaunched;
     private bool isRunning;
@@ -83,6 +85,7 @@ public class GameRunner : MonoBehaviour
     public void KickBall()
     {
         ballLauncher.Launch(GetTarget());
+        audioManager.PlayKickSound();
         isLaunched = true;
         StartCoroutine(WaitAndMovePlayerToStart());
     }
