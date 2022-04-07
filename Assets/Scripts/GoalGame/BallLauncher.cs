@@ -24,11 +24,17 @@ public class BallLauncher : MonoBehaviour
         }
     }
 
+    public void ResetBall()
+    {
+        ball.position = transform.position;
+        ball.velocity = Vector3.zero;
+    }
+
     public void Launch(Transform target)
     {
         ballTarget = target;
         Physics.gravity = Vector3.up * gravity;
-        ball.position = transform.position;
+        ResetBall();
         ball.useGravity = true;
         ball.velocity = CalculateLaunchData().initialVelocity;
     }

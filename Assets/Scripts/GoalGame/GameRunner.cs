@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StarterAssets;
 
 public class GameRunner : MonoBehaviour
 {
     [SerializeField] private BallLauncher ballLauncher;
-    [SerializeField] private TargetSection targetSection;
-
     [SerializeField] private List<Transform> leftTargets;
     [SerializeField] private List<Transform> centerTargets;
     [SerializeField] private List<Transform> rightTargets;
+
+    [SerializeField] private StarterAssetsInputs playerInput;
+    [SerializeField] private Transform startPos;
+    [SerializeField] private Transform kickPos;
+
+    private TargetSection targetSection;
+    private bool isLaunched;
 
     public enum TargetSection
     {
@@ -17,6 +23,11 @@ public class GameRunner : MonoBehaviour
         Left,
         Center,
         Right
+    }
+
+    private void Start()
+    {
+        isLaunched = false;
     }
 
     private Transform GetTarget()
@@ -43,9 +54,63 @@ public class GameRunner : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            ballLauncher.Launch(GetTarget());
+            if (!isLaunched) MovePlayerToKick();
         }
+    }
+
+    public void KickBall()
+    {
+        ballLauncher.Launch(GetTarget());
+        isLaunched = true;
+        StartCoroutine(WaitAndMovePlayerToStart());
+    }
+
+    private void MovePlayerToKick()
+    {
+        Vector3 direction = kickPos.position - playerInput.transform.position;
+        Vector2 moveDirection = new Vector2(direction.x, direction.z).normalized;
+        playerInput.MoveInput(moveDirection);
+    }
+
+    public void StopPlayer()
+    {
+        playerInput.MoveInput(Vector3.zero);
+    }
+
+    public void StopAndTurnPlayer()
+    {
+        StartCoroutine(StopPlayerCoroutine());
+    }
+
+    private IEnumerator StopPlayerCoroutine()
+    {
+        Vector3 direction = kickPos.position - playerInput.transform.position;
+        Vector2 lookDirection = new Vector2(direction.x, direction.z).normalized;
+        playerInput.MoveInput(lookDirection);
+
+        yield return new WaitForSeconds(0.2f);
+
+        playerInput.MoveInput(Vector2.zero);
+        isLaunched = false;
+
+        yield return null;
+    }
+
+    private IEnumerator WaitAndMovePlayerToStart()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        Vector3 direction = startPos.position - playerInput.transform.position;
+        Vector2 moveDirection = new Vector2(direction.x, direction.z).normalized;
+        playerInput.MoveInput(moveDirection);
+
+        yield return null;
+    }
+
+    public void ResetBallPosition()
+    {
+        ballLauncher.ResetBall();
     }
 }
