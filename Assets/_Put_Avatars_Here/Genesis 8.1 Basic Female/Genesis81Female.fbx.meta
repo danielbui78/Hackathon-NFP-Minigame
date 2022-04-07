@@ -16,7 +16,46 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
+      does not match position in animation file:\n\t'lThighBend' : position error
+      = 11.224972 mm\n\t'lThighTwist' : position error = 16.661068 mm\n\t'lShin'
+      : position error = 23.569393 mm\n\t'lFoot' : position error = 35.041721 mm\n\t'lMetatarsals'
+      : position error = 1.029365 mm\n\t'lToe' : position error = 15.487726 mm\n\t'rThighBend'
+      : position error = 11.211177 mm\n\t'rThighTwist' : position error = 16.671028
+      mm\n\t'rShin' : position error = 23.591738 mm\n\t'rFoot' : position error =
+      35.044460 mm\n\t'rMetatarsals' : position error = 1.014792 mm\n\t'rToe' : position
+      error = 15.480551 mm\n\t'abdomenLower' : position error = 2.134564 mm\n\t'abdomenUpper'
+      : position error = 5.834185 mm\n\t'chestLower' : position error = 5.795535
+      mm\n\t'chestUpper' : position error = 13.069017 mm\n\t'lCollar' : position
+      error = 10.640973 mm\n\t'lShldrBend' : position error = 9.714453 mm\n\t'lShldrTwist'
+      : position error = 8.965843 mm\n\t'lForearmBend' : position error = 12.796817
+      mm\n\t'lForearmTwist' : position error = 10.215686 mm\n\t'lHand' : position
+      error = 13.690422 mm\n\t'lThumb1' : position error = 1.901486 mm\n\t'lThumb2'
+      : position error = 4.320717 mm\n\t'lThumb3' : position error = 3.366701 mm\n\t'lCarpal1'
+      : position error = 1.207377 mm\n\t'lIndex1' : position error = 6.860563 mm\n\t'lIndex2'
+      : position error = 4.260332 mm\n\t'lIndex3' : position error = 2.210657 mm\n\t'lMid1'
+      : position error = 6.760933 mm\n\t'lMid2' : position error = 4.652984 mm\n\t'lMid3'
+      : position error = 2.652989 mm\n\t'lCarpal3' : position error = 1.121084 mm\n\t'lRing1'
+      : position error = 6.175978 mm\n\t'lRing2' : position error = 4.285861 mm\n\t'lRing3'
+      : position error = 2.361581 mm\n\t'lCarpal4' : position error = 1.830742 mm\n\t'lPinky1'
+      : position error = 5.774743 mm\n\t'lPinky2' : position error = 3.046970 mm\n\t'lPinky3'
+      : position error = 1.779760 mm\n\t'rCollar' : position error = 10.608028 mm\n\t'rShldrBend'
+      : position error = 9.721941 mm\n\t'rShldrTwist' : position error = 8.991220
+      mm\n\t'rForearmBend' : position error = 12.774212 mm\n\t'rForearmTwist' : position
+      error = 10.231104 mm\n\t'rHand' : position error = 13.696497 mm\n\t'rThumb1'
+      : position error = 1.899955 mm\n\t'rThumb2' : position error = 4.327902 mm\n\t'rThumb3'
+      : position error = 3.350330 mm\n\t'rCarpal1' : position error = 1.196695 mm\n\t'rIndex1'
+      : position error = 6.850582 mm\n\t'rIndex2' : position error = 4.254230 mm\n\t'rIndex3'
+      : position error = 2.214802 mm\n\t'rMid1' : position error = 6.770492 mm\n\t'rMid2'
+      : position error = 4.651954 mm\n\t'rMid3' : position error = 2.652297 mm\n\t'rCarpal3'
+      : position error = 1.116360 mm\n\t'rRing1' : position error = 6.180337 mm\n\t'rRing2'
+      : position error = 4.279328 mm\n\t'rRing3' : position error = 2.356411 mm\n\t'rCarpal4'
+      : position error = 1.828410 mm\n\t'rPinky1' : position error = 5.765198 mm\n\t'rPinky2'
+      : position error = 3.047737 mm\n\t'rPinky3' : position error = 1.781610 mm\n\t'neckLower'
+      : position error = 15.253744 mm\n\t'neckUpper' : position error = 2.719652
+      mm\n\t'head' : position error = 4.645431 mm\n\t'lowerJaw' : position error
+      = 2.515605 mm\n\t'lEye' : position error = 11.093402 mm\n\t'rEye' : position
+      error = 11.093212 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 

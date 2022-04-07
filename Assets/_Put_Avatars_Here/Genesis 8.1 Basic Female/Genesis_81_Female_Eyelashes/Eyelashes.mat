@@ -26,7 +26,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _CutoutOpacityMap:
-        m_Texture: {fileID: 2800000, guid: 21555fc33e1657c4081a305d38cb7ed3, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseMap:
@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 18b040fe104c5e04ba356615eb575d55, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
@@ -130,7 +130,7 @@ Material:
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColorSecondary: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4060765894443213200
+--- !u!114 &4963246657118161360
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
