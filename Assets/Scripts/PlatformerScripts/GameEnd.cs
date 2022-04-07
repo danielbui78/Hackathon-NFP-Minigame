@@ -6,6 +6,7 @@ public class GameEnd : MonoBehaviour
 {
 	private GameObject PlayerInformation;
 	public GameObject Lamp;
+	public GameObject EndScreen;
 
 	private void Start()
 	{
@@ -18,7 +19,9 @@ public class GameEnd : MonoBehaviour
 			Lamp.GetComponent<MeshRenderer>().material.color = Color.green;
 			PlayerInformation.GetComponent<PlayerAttributes>().CheckpointPos = this.gameObject.transform.position;
 			this.gameObject.SetActive(false);
-			//End game screen.
+
+			EndScreen.SetActive(true);
+			Time.timeScale = 0;
 		}
 	}
 }

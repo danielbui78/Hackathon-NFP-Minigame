@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageCollider : MonoBehaviour
 {
 	private GameObject PlayerInformation;
 	private GameObject CurrentSpawnLoc;
+	public Image healthCircle;
 	private float t = 0;
 
 	public void Start()
@@ -21,6 +23,7 @@ public class DamageCollider : MonoBehaviour
 			if (t > 2)
 			{
 				t = 0;
+				StartCoroutine(Tangibility());
 				DamageTick();
 			}
 		}
@@ -30,8 +33,12 @@ public class DamageCollider : MonoBehaviour
 	{
 		if (other.tag == "Player")
 		{
-			DamageTick();
-			t = 0;
+			if (PlayerInformation.GetComponent<PlayerAttributes>().Tangible == true)
+			{
+				StartCoroutine(Tangibility());
+				DamageTick();
+				t = 0;
+			}
 		}
 	}
 
@@ -45,6 +52,24 @@ public class DamageCollider : MonoBehaviour
 
 	IEnumerator DamageFlash(float time, float intervalTime)
 	{
+		healthCircle.enabled = true;
+		if (PlayerInformation.GetComponent<PlayerAttributes>().PlayerHealth == 2)
+		{
+			healthCircle.fillAmount = .66f;
+			healthCircle.color = Color.yellow;
+		}
+
+		if (PlayerInformation.GetComponent<PlayerAttributes>().PlayerHealth == 1)
+		{
+			healthCircle.fillAmount = .33f;
+			healthCircle.color = Color.red;
+		}
+		if (PlayerInformation.GetComponent<PlayerAttributes>().PlayerHealth == 0)
+		{
+			healthCircle.fillAmount = 1;
+			healthCircle.color = Color.green;
+		}
+
 		float elapsedTime = 0f;
 		while (elapsedTime < time)
 		{
@@ -66,6 +91,13 @@ public class DamageCollider : MonoBehaviour
 			}
 
 			yield return new WaitForSeconds(intervalTime);
+			healthCircle.enabled = false;
 		}
+	}
+	public IEnumerator Tangibility()
+	{
+		PlayerInformation.GetComponent<PlayerAttributes>().Tangible = false;
+		yield return new WaitForSeconds(1.5f);
+		PlayerInformation.GetComponent<PlayerAttributes>().Tangible = true;
 	}
 	}

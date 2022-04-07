@@ -12,13 +12,13 @@ public class PlayerAttributes : MonoBehaviour
 	public GameObject Checkpoint0;
 	public GameObject Checkpoint1;
 	private Color ogColor;
+	public bool Tangible = true;
     // Start is called before the first frame update
     void Start()
     {
 		CheckpointPos = Checkpoint0.transform.position;
 		Player = GameObject.FindGameObjectWithTag("Player");
-
-
+		Tangible = true;
 	}
 
     // Update is called once per frame
