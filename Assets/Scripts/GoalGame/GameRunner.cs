@@ -13,9 +13,12 @@ public class GameRunner : MonoBehaviour
     [SerializeField] private StarterAssetsInputs playerInput;
     [SerializeField] private Transform startPos;
     [SerializeField] private Transform kickPos;
+    [SerializeField] private GameObject playerObj;
+    [SerializeField] private GameObject goalieObj;
 
     private TargetSection targetSection;
     private bool isLaunched;
+    private bool isRunning;
 
     public enum TargetSection
     {
@@ -27,7 +30,24 @@ public class GameRunner : MonoBehaviour
 
     private void Start()
     {
+        StopGame();
+    }
+
+    public void StartGame()
+    {
+        isRunning = true;
+
+        playerObj.SetActive(true);
+        goalieObj.SetActive(true);
+    }
+
+    public void StopGame()
+    {
         isLaunched = false;
+        isRunning = false;
+
+        playerObj.SetActive(false);
+        goalieObj.SetActive(false);
     }
 
     private Transform GetTarget()
@@ -54,7 +74,7 @@ public class GameRunner : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (isRunning && Input.GetKeyDown(KeyCode.K))
         {
             if (!isLaunched) MovePlayerToKick();
         }

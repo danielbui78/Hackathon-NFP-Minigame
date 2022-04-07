@@ -6,6 +6,7 @@ public class GoalCounter : MonoBehaviour
 {
     [SerializeField] private int maxScore;
     [SerializeField] private GameRunner gameRunner;
+    [SerializeField] private UiManager uiManager;
     [SerializeField] private int curScore;
     [SerializeField] private int turnCount;
 
@@ -27,6 +28,7 @@ public class GoalCounter : MonoBehaviour
         if (curScore == maxScore)
         {
             // Winner
+            uiManager.LoadEndUi(true);
         }
         UpdateTurns();
     }
@@ -45,5 +47,15 @@ public class GoalCounter : MonoBehaviour
     public int GetTurnCount()
     {
         return turnCount;
+    }
+
+    public int GetAttemptsRemaining()
+    {
+        return 0;
+    }
+
+    public int GetMaxScore()
+    {
+        return maxScore;
     }
 }
