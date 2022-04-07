@@ -72,3 +72,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 do_once.cfg
+/[Aa]ssets/_Private_Files
