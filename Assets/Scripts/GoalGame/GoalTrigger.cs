@@ -6,7 +6,7 @@ public class GoalTrigger : MonoBehaviour
 {
     [SerializeField] private GoalCounter goalCounter;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Ball")
         {

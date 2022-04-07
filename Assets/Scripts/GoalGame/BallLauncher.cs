@@ -28,6 +28,7 @@ public class BallLauncher : MonoBehaviour
     {
         ball.position = transform.position;
         ball.velocity = Vector3.zero;
+        ball.angularVelocity = Vector3.zero;
     }
 
     public void Launch(Transform target)

@@ -6,24 +6,14 @@ using StarterAssets;
 public class GoalieMovement : MonoBehaviour
 {
     [SerializeField] private StarterAssetsInputs playerInput;
-    [SerializeField] private float waitTime = 3.0f;
-
-    private void Start()
+    [SerializeField] private Transform target;
+    private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(MovementRoutine());
-    }
-
-    private IEnumerator MovementRoutine()
-    {
-        playerInput.MoveInput(new Vector2(1, 0));
-        yield return new WaitForSeconds(waitTime / 2);
-
-        while(true)
+        if (other.gameObject.tag == "Goalie")
         {
-            playerInput.MoveInput(new Vector2(-1, 0));
-            yield return new WaitForSeconds(waitTime);
-            playerInput.MoveInput(new Vector2(1, 0));
-            yield return new WaitForSeconds(waitTime);
+            Vector3 direction = target.position - playerInput.transform.position;
+            Vector2 moveDirection = new Vector2(direction.x, direction.z).normalized;
+            playerInput.MoveInput(moveDirection);
         }
     }
 }
