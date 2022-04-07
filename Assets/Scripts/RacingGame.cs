@@ -2,16 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
+public class HighScoreTable
+{
+    public float[] score = new float[10];
+    public string[] name = new string[10];
+    public string[] date = new string[10];
+}
+
 public class RacingGame : MonoBehaviour
 {
     public float fStopWatchTime = 0.0f;
     public float fCountDownToStart = 3.0f;
     public bool bRaceStarted = false;
     public bool bRaceFinished = false;
+    public bool bRaceFinished_RunOnce = false;
     public bool bStartGame = false;
 
     public TMPro.TextMeshProUGUI StopWatchText;
     private TMPro.TextMeshProUGUI ReadySetGoText;
+    public TMPro.TextMeshProUGUI HighScoresText;
+
     public GameObject ReadySetGoObject;
     //    public GameObject StopWatchTimerObject;
 
@@ -26,40 +38,182 @@ public class RacingGame : MonoBehaviour
     public GameObject finishLine;
     public List<GameObject> avatarList;
 
-    [SerializeField]
-    public float[] fBestTimes = new float[10];
-    [SerializeField]
-    public string[] sNameForBestTime = new string[10];
+     public class runnerTime
+    {
+        public float fTime;
+        public string sName;
+        public string sDate;
+
+        public void SetValue(runnerTime other)
+        {
+            this.fTime = other.fTime;
+            this.sName = other.sName;
+            this.sDate = other.sDate;
+        }
+    };
+    public List<runnerTime> runTimeSortedList = new List<runnerTime>();
+
+    private bool bLeaderBoardInitialized = false;
 
     [SerializeField]
+    public HighScoreTable highScores;
+
     public string sUsername = "";
+
+    public GameObject InputNameInputFieldObject;
+    public TMPro.TMP_InputField LeaderBoardNameInputField;
+
+    class InsertionCommandContext
+    {
+        public int index;
+        public runnerTime newEntry;
+    }
+    InsertionCommandContext insertionCommandContext = new InsertionCommandContext();
+
+    public void RequestUserNameAndInsertBestTime(int timeIndex, runnerTime newEntry)
+    {
+        // save insertion command context
+        insertionCommandContext.index = timeIndex;
+        insertionCommandContext.newEntry = newEntry;
+
+        // show input field UI
+        InputNameInputFieldObject.SetActive(true);
+
+    }
+
+    public void LeaderBoardSubmitName()
+    {
+        // rebuild insertion command context
+        int timeIndex = insertionCommandContext.index;
+        runnerTime newEntry = insertionCommandContext.newEntry;
+
+        // perform insertion command
+        newEntry.sName = LeaderBoardNameInputField.text;
+        runTimeSortedList.Insert(timeIndex, newEntry);
+
+        // hide input field UI
+        InputNameInputFieldObject.SetActive(false);
+
+    }
 
     public void SendBestTimeToDiscord()
     {
         // query for username
 
         // record best times
-        float fBestTime = fBestTimes[0];
+        float fBestTime = runTimeSortedList[0].fTime;
 
         string sMessageToServer = "Best Time for " + sUsername + ": " + fBestTime.ToString();
         GetComponent<DiscordWebhook>().SendMessageToServer(sMessageToServer);
     }
 
+    public void BackSort(int startIndex)
+    {
+
+        if (startIndex < 0 || startIndex > runTimeSortedList.Count)
+            return;
+
+        for (int timeIndex = startIndex; timeIndex > 0; timeIndex--)
+        {
+            runnerTime PreviousEntry = new runnerTime();
+            PreviousEntry.SetValue(runTimeSortedList[timeIndex - 1]);
+
+            runnerTime CurrentEntry = new runnerTime();
+            CurrentEntry.SetValue(runTimeSortedList[timeIndex]);
+
+            if (CurrentEntry.fTime < PreviousEntry.fTime)
+            {
+                // switch
+                runTimeSortedList[timeIndex - 1].SetValue(CurrentEntry);
+                runTimeSortedList[timeIndex].SetValue(PreviousEntry);
+            }
+        }
+
+
+    }
+
+    public void ForwardSort(int startIndex)
+    {
+        if (startIndex < 0 || startIndex > runTimeSortedList.Count)
+            return;
+
+        for (int timeIndex = startIndex + 1; timeIndex < runTimeSortedList.Count; timeIndex++)
+        {
+            runnerTime PreviousEntry = new runnerTime();
+            PreviousEntry.SetValue(runTimeSortedList[timeIndex - 1]);
+
+            runnerTime CurrentEntry = new runnerTime();
+            CurrentEntry.SetValue(runTimeSortedList[timeIndex]);
+
+            if (CurrentEntry.fTime < PreviousEntry.fTime)
+            {
+                // switch
+                runTimeSortedList[timeIndex - 1].SetValue(CurrentEntry);
+                runTimeSortedList[timeIndex].SetValue(PreviousEntry);
+                BackSort(timeIndex-1);
+            }
+        }
+
+    }
+
+    public void InsertLastTime()
+    {
+        runnerTime newEntry = new runnerTime();
+        newEntry.fTime = fStopWatchTime;
+//      newEntry.sName = sUsername;
+        newEntry.sDate = System.DateTime.Now.ToString();
+
+//        runTimeSortedList.Add(newEntry);
+        for (int timeIndex = 0; timeIndex < runTimeSortedList.Count;timeIndex++)
+        {
+            if (fStopWatchTime < runTimeSortedList[timeIndex].fTime)
+            {
+                // Notify User of High Score and ask for Initials or UserID
+                RequestUserNameAndInsertBestTime(timeIndex, newEntry);
+//              runTimeSortedList.Insert(timeIndex, newEntry);
+                break;
+            }
+        }
+
+        ForwardSort(0);
+        SaveLeaderBoard();
+    }
+
+    public void SaveLeaderBoard()
+    {
+        // save sorted list back to serializable arrays
+        for (int timeIndex = 0; timeIndex < runTimeSortedList.Count; timeIndex++)
+        {
+            if (timeIndex >= highScores.score.Length)
+                return;
+
+            highScores.score[timeIndex] = runTimeSortedList[timeIndex].fTime;
+            highScores.name[timeIndex] = runTimeSortedList[timeIndex].sName;
+            highScores.date[timeIndex] = runTimeSortedList[timeIndex].sDate;
+        }
+
+    }
+
     public void InitializeLeaderBoard()
     {
-        //Social.localUser.userName = Query Username
-        Social.localUser.Authenticate(success => {
-            if (success)
-            {
-                Debug.Log("Authentication successful");
-                string userInfo = "Username: " + Social.localUser.userName +
-                    "\nUser ID: " + Social.localUser.id +
-                    "\nIsUnderage: " + Social.localUser.underage;
-                Debug.Log(userInfo);
-            }
-            else
-                Debug.Log("Authentication failed");
-        });
+        // Reeset sorted list
+        // Load Serialized Highscore data into sortable list
+        // Then sort
+
+        runTimeSortedList.Clear();
+
+        // Copy serialized array to list
+        for (int timeIndex = 0; timeIndex < highScores.score.Length; timeIndex++)
+        {
+            runnerTime newTime = new runnerTime();
+            newTime.fTime = highScores.score[timeIndex];
+            newTime.sName = highScores.name[timeIndex];
+            newTime.sDate = highScores.date[timeIndex];
+            runTimeSortedList.Add(newTime);
+        }
+        // 2. Sort List
+        ForwardSort(0);
+
     }
 
     public void RestartGame()
@@ -67,6 +221,7 @@ public class RacingGame : MonoBehaviour
         // Reset Timer
         bRaceStarted = false;
         bRaceFinished = false;
+        bRaceFinished_RunOnce = false;
         bStartGame = false;
 
         fStopWatchTime = 0.0f;
@@ -126,7 +281,13 @@ public class RacingGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitializeLeaderBoard();
+        InputNameInputFieldObject.SetActive(false);
+
+        if (bLeaderBoardInitialized == false)
+        {
+            bLeaderBoardInitialized = true;
+            InitializeLeaderBoard();
+        }
         RaceMusic.Stop();
         startButton.SetActive(true);
 
@@ -210,6 +371,7 @@ public class RacingGame : MonoBehaviour
             fCountDownToStart -= Time.deltaTime;
         }
 
+        // update stopwatch timer
         if (bRaceStarted && !bRaceFinished)
         {
 
@@ -227,39 +389,52 @@ public class RacingGame : MonoBehaviour
 
         }
 
+        // update stopwatch UI
         if (StopWatchText != null)
         {
             string label = "Time: ";
             StopWatchText.text = label + fStopWatchTime.ToString();
         }
 
+        // NOTE: Must be run multiple times until tapToRunController.fCurrentSpeed <= 0.01f
         if (bRaceFinished)
         {
-            // Caclulate Best Times
-            int timeIndex;
-            for (timeIndex = 0; timeIndex < fBestTimes.Length; timeIndex++)
-            {
 
+            // run only once when RaceFinished
+            if (bRaceFinished_RunOnce == false)
+            {
+                bRaceFinished_RunOnce = true;
+                // Caclulate Best Times
+                InsertLastTime();
+                RaceMusic.Stop();
+
+                if (tapToRunController != null)
+                {
+                    tapToRunController.fDragCoefficient = 0.97f;
+
+                    _input.cursorLocked = false;
+                    _input.SetCursorState(_input.cursorLocked);
+                }
             }
 
             // DONE!
-            RaceMusic.Stop();
-            if (tapToRunController != null)
+            if (tapToRunController != null && EndGamePanel != null)
             {
-                tapToRunController.fDragCoefficient = 0.97f;
-
-                _input.cursorLocked = false;
-                _input.SetCursorState(_input.cursorLocked);
-
-                if (EndGamePanel != null)
+                if (tapToRunController.fCurrentSpeed <= 0.01f)
                 {
-                    if (tapToRunController.fCurrentSpeed <= 0.01f)
+                    // Write High Score Panel
+                    HighScoresText.text = "Best Times:\n\n";
+                    for (int timeIndex=0; (timeIndex < 5 && timeIndex < runTimeSortedList.Count); timeIndex++)
                     {
-                        EndGamePanel.SetActive(true);
+                        int scoreIndex = timeIndex + 1;
+                        var timeEntry = runTimeSortedList[timeIndex];
+                        if (timeEntry.fTime >= 99.9f)
+                            break;
+                        string BestTimeLine = scoreIndex.ToString() + ". " + timeEntry.fTime.ToString("0.000") + "s\t\t" + timeEntry.sName + "\t\t[" + timeEntry.sDate + "]";
+                        HighScoresText.text += BestTimeLine + "\n\n";
                     }
-
+                    EndGamePanel.SetActive(true);
                 }
-
             }
 
         }
