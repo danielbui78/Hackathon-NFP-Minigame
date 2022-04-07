@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2022.6416, g: 2002.2285, b: 2439.4531, a: 1}
+  m_IndirectSpecularColor: {r: 2023.6504, g: 2003.1445, b: 2439.9805, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9577,7 +9577,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fad3f210f094b0d468d7349fac655332, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.212
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -19288,6 +19288,7 @@ MonoBehaviour:
   CheckpointPos: {x: 0, y: 0, z: 0}
   Checkpoint0: {fileID: 1645467411}
   Checkpoint1: {fileID: 1786112500}
+  Tangible: 1
 --- !u!4 &1077365107
 Transform:
   m_ObjectHideFlags: 0
@@ -37084,7 +37085,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit Game
+  m_text: Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
