@@ -80,6 +80,11 @@ public class RacingGame : MonoBehaviour
 
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
