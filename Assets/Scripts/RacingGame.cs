@@ -14,15 +14,19 @@ public class RacingGame : MonoBehaviour
     private TMPro.TextMeshProUGUI ReadySetGoText;
     public GameObject ReadySetGoObject;
     //    public GameObject StopWatchTimerObject;
-    public GameObject startButton;
 
     public TapToRunController tapToRunController;
     public StarterAssets.StarterAssetsInputs _input;
 
+    public GameObject startButton;
     public GameObject EndGamePanel;
+
+    public AudioSource RaceMusic;
+
 
     public GameObject finishLine;
     public List<GameObject> avatarList;
+
 
     public void RestartGame()
     {
@@ -88,6 +92,7 @@ public class RacingGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RaceMusic.Stop();
         startButton.SetActive(true);
 
         _input.cursorLocked = false;
@@ -133,6 +138,7 @@ public class RacingGame : MonoBehaviour
                 {
                     ReadySetGoText.text = "Go!";
                     bRaceStarted = true;
+                    RaceMusic.Play();
                 }
 
             }
@@ -195,6 +201,7 @@ public class RacingGame : MonoBehaviour
         if (bRaceFinished)
         {
             // DONE!
+            RaceMusic.Stop();
             if (tapToRunController != null)
             {
                 tapToRunController.fDragCoefficient = 0.97f;

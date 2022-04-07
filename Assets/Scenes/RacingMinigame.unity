@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2041.0117, g: 2028.6953, b: 2486.211, a: 1}
+  m_IndirectSpecularColor: {r: 2028.6836, g: 1995.5918, b: 2403.379, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1495,6 +1495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1273992502}
   - component: {fileID: 1273992503}
+  - component: {fileID: 1273992504}
   m_Layer: 0
   m_Name: RacingGame
   m_TagString: Untagged
@@ -1535,13 +1536,110 @@ MonoBehaviour:
   bStartGame: 0
   StopWatchText: {fileID: 282037404}
   ReadySetGoObject: {fileID: 1307285447}
-  startButton: {fileID: 636177840}
   tapToRunController: {fileID: 1621307702}
   _input: {fileID: 1621307704}
+  startButton: {fileID: 636177840}
   EndGamePanel: {fileID: 1239993541}
+  RaceMusic: {fileID: 1273992504}
   finishLine: {fileID: 1848134398}
   avatarList:
   - {fileID: 1621307701}
+--- !u!82 &1273992504
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273992501}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8641192897bf9c94790bc388da82768a, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1307285447
 GameObject:
   m_ObjectHideFlags: 0
@@ -2442,6 +2540,22 @@ PrefabInstance:
       propertyPath: fSpeedIncreasePerTap
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5802038404207875876, guid: 363205b38af44c540bc82cb509885f21, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.20000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5802038404207875876, guid: 363205b38af44c540bc82cb509885f21, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5802038404260679358, guid: 363205b38af44c540bc82cb509885f21, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.20000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5802038404260679358, guid: 363205b38af44c540bc82cb509885f21, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 363205b38af44c540bc82cb509885f21, type: 3}
 --- !u!1001 &7598260412866021669
@@ -2451,10 +2565,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2559817044508268990, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318403708426535034, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.493
+      objectReference: {fileID: 0}
     - target: {fileID: 3656276437053850449, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
       propertyPath: RacingGameScript
       value: 
       objectReference: {fileID: 1273992503}
+    - target: {fileID: 4878083797712831865, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598260412570915315, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7598260412570915318, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
       propertyPath: m_Name
       value: FinishLine
@@ -2469,11 +2599,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7598260412570915325, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.628
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7598260412570915325, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 100
+      value: 203
       objectReference: {fileID: 0}
     - target: {fileID: 7598260412570915325, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2503,5 +2633,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2559817044508268990, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e91b7b1c61d59af40af2e2a433303109, type: 3}
