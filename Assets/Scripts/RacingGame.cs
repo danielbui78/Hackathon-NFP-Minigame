@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 [System.Serializable]
 public class HighScoreTable
@@ -94,6 +95,8 @@ public class RacingGame : MonoBehaviour
         // hide input field UI
         InputNameInputFieldObject.SetActive(false);
 
+        ForwardSort(0);
+        SaveLeaderBoard();
     }
 
     public void SendBestTimeToDiscord()
@@ -164,7 +167,7 @@ public class RacingGame : MonoBehaviour
         newEntry.sDate = System.DateTime.Now.ToString();
 
 //        runTimeSortedList.Add(newEntry);
-        for (int timeIndex = 0; timeIndex < runTimeSortedList.Count;timeIndex++)
+        for (int timeIndex = 0; (timeIndex < runTimeSortedList.Count); timeIndex++)
         {
             if (fStopWatchTime < runTimeSortedList[timeIndex].fTime)
             {
@@ -175,8 +178,6 @@ public class RacingGame : MonoBehaviour
             }
         }
 
-        ForwardSort(0);
-        SaveLeaderBoard();
     }
 
     public void SaveLeaderBoard()
@@ -185,12 +186,18 @@ public class RacingGame : MonoBehaviour
         for (int timeIndex = 0; timeIndex < runTimeSortedList.Count; timeIndex++)
         {
             if (timeIndex >= highScores.score.Length)
-                return;
+                break;
 
             highScores.score[timeIndex] = runTimeSortedList[timeIndex].fTime;
             highScores.name[timeIndex] = runTimeSortedList[timeIndex].sName;
             highScores.date[timeIndex] = runTimeSortedList[timeIndex].sDate;
         }
+
+        // Save to disk
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/hiscore.save");
+        bf.Serialize(file, highScores);
+        file.Close();
 
     }
 
@@ -199,6 +206,14 @@ public class RacingGame : MonoBehaviour
         // Reeset sorted list
         // Load Serialized Highscore data into sortable list
         // Then sort
+
+        if (File.Exists(Application.persistentDataPath + "/hiscore.save"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/hiscore.save", FileMode.Open);
+            highScores = (HighScoreTable) bf.Deserialize(file);
+            file.Close();
+        }
 
         runTimeSortedList.Clear();
 
@@ -424,7 +439,7 @@ public class RacingGame : MonoBehaviour
                 {
                     // Write High Score Panel
                     HighScoresText.text = "Best Times:\n\n";
-                    for (int timeIndex=0; (timeIndex < 5 && timeIndex < runTimeSortedList.Count); timeIndex++)
+                    for (int timeIndex=0; (timeIndex < runTimeSortedList.Count); timeIndex++)
                     {
                         int scoreIndex = timeIndex + 1;
                         var timeEntry = runTimeSortedList[timeIndex];
