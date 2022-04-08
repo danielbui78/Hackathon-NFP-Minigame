@@ -25,6 +25,9 @@ public class RacingGame : MonoBehaviour
     private TMPro.TextMeshProUGUI ReadySetGoText;
     public TMPro.TextMeshProUGUI HighScoresText;
 
+    public UnityEngine.UI.Slider SpeedSlider;
+    public TMPro.TextMeshProUGUI PressEnterNow;
+
     public GameObject ReadySetGoObject;
     //    public GameObject StopWatchTimerObject;
 
@@ -267,7 +270,7 @@ public class RacingGame : MonoBehaviour
             // reset tapToRunController
             tapToRunController.fCurrentSpeed = 0.0f;
             tapToRunController.fTapRefractoryTimer = 0.0f;
-            tapToRunController.fDragCoefficient = 0.995f;
+//            tapToRunController.fDragCoefficient = 0.995f;
         }
 
         _input.cursorLocked = true;
@@ -297,6 +300,10 @@ public class RacingGame : MonoBehaviour
     void Start()
     {
         InputNameInputFieldObject.SetActive(false);
+        if (SpeedSlider != null)
+        {
+            SpeedSlider.gameObject.SetActive(false);
+        }
 
         if (bLeaderBoardInitialized == false)
         {
@@ -336,6 +343,25 @@ public class RacingGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (tapToRunController != null)
+        {
+            float speedDial = tapToRunController.fSpeedIncreasePerTap;
+            if (SpeedSlider != null)
+            {
+                SpeedSlider.value = tapToRunController.fSpeedIncreasePerTap / TapToRunController.fMaxSpeedIncreasePerTap;
+                if (SpeedSlider.value > 0.9f && PressEnterNow != null)
+                {
+                    PressEnterNow.enabled = true;
+                }
+                else
+                {
+                    PressEnterNow.enabled = false;
+                }
+            }
+
+
+        }
+
         if (bStartGame == false)
         {
             return;
@@ -350,6 +376,10 @@ public class RacingGame : MonoBehaviour
                     ReadySetGoText.text = "Go!";
                     bRaceStarted = true;
                     RaceMusic.Play();
+                    if (SpeedSlider != null)
+                    {
+                        SpeedSlider.gameObject.SetActive(true);
+                    }
                 }
 
             }
@@ -414,6 +444,10 @@ public class RacingGame : MonoBehaviour
         // NOTE: Must be run multiple times until tapToRunController.fCurrentSpeed <= 0.01f
         if (bRaceFinished)
         {
+            if (SpeedSlider != null)
+            {
+                SpeedSlider.gameObject.SetActive(false);
+            }
 
             // run only once when RaceFinished
             if (bRaceFinished_RunOnce == false)
@@ -425,7 +459,7 @@ public class RacingGame : MonoBehaviour
 
                 if (tapToRunController != null)
                 {
-                    tapToRunController.fDragCoefficient = 0.97f;
+//                    tapToRunController.fDragCoefficient = 0.97f;
 
                     _input.cursorLocked = false;
                     _input.SetCursorState(_input.cursorLocked);
@@ -439,7 +473,7 @@ public class RacingGame : MonoBehaviour
                 {
                     // Write High Score Panel
                     HighScoresText.text = "Best Times:\n\n";
-                    for (int timeIndex=0; (timeIndex < runTimeSortedList.Count); timeIndex++)
+                    for (int timeIndex=0; (timeIndex < runTimeSortedList.Count && timeIndex < 10); timeIndex++)
                     {
                         int scoreIndex = timeIndex + 1;
                         var timeEntry = runTimeSortedList[timeIndex];

@@ -7,15 +7,19 @@ using StarterAssets;
 public class TapToRunController : MonoBehaviour
 {
 	public float fCurrentSpeed = 0.0f;
-	public float fSpeedIncreasePerTap = 0.1f;
-	public float fDragForce = -0.01f;
-	public float fDragCoefficient = 0.995f;
+	public const float fMaxSpeedIncreasePerTap = 10f;
+	public float fSpeedIncreasePerTap = 0.0f;
+	public int speedCycleDirection = 1;
+//	public float fDragForce = -0.01f;
+	public float fDragCoefficient = 0.97f;
+	public float fDragCoefficient_AtEndGame = 0.97f;
 	public bool bIsPressed = false;
-	public const float fTapRefractoryConstant = 0.500f;
+	public const float fTapRefractoryConstant = 0.350f;
 	public float fTapRefractoryTimer = 0.0f;
 	public bool bReadyToTap = true;
 	public bool bDisableMove = false;
 
+/*
 	[Header("Player")]
 	[Tooltip("Move speed of the character in m/s")]
 	public float MoveSpeed = 2.0f;
@@ -26,6 +30,7 @@ public class TapToRunController : MonoBehaviour
 	public float RotationSmoothTime = 0.12f;
 	[Tooltip("Acceleration and deceleration")]
 	public float SpeedChangeRate = 10.0f;
+*/
 
 	[Space(10)]
 	[Tooltip("The height the player can jump")]
@@ -123,6 +128,18 @@ public class TapToRunController : MonoBehaviour
 	{
 		_hasAnimator = TryGetComponent(out _animator);
 
+		if (fSpeedIncreasePerTap > fMaxSpeedIncreasePerTap)
+        {
+			speedCycleDirection = -1;
+			fSpeedIncreasePerTap = fMaxSpeedIncreasePerTap;
+		}
+		else if (fSpeedIncreasePerTap < 0)
+        {
+			speedCycleDirection = 1;
+			fSpeedIncreasePerTap = 0;
+		}
+		fSpeedIncreasePerTap += speedCycleDirection * fMaxSpeedIncreasePerTap * (Time.deltaTime / fTapRefractoryConstant);
+
 		JumpAndGravity();
 		GroundedCheck();
 		Move();
@@ -134,7 +151,8 @@ public class TapToRunController : MonoBehaviour
 		if (fCurrentSpeed > 0)
         {
 //			fCurrentSpeed += fDragForce;
-			fCurrentSpeed *= fDragCoefficient;
+//			fCurrentSpeed *= fDragCoefficient;
+			fCurrentSpeed *= 0.985f;
 		}
 	}
 
@@ -220,6 +238,11 @@ public class TapToRunController : MonoBehaviour
 
 		// NOTE: Activate Button must be set to "Value" type in the Unity Input System Package in order to be correctly reset to false
 		bIsPressed = _input.activateButton;
+		if (bIsPressed)
+        {
+			speedCycleDirection = -1;
+        }
+
 		if (bIsPressed && bReadyToTap)
         {
 			bWasTapped = true;
@@ -230,6 +253,7 @@ public class TapToRunController : MonoBehaviour
 		// gradually increase run speed be cumulatively adding increases from taps of _input.sprint
 		if (bWasTapped)
 		{
+/*
 			if (fCurrentSpeed <= 0.0f)
             {
 				fCurrentSpeed += fSpeedIncreasePerTap * 3;
@@ -238,6 +262,9 @@ public class TapToRunController : MonoBehaviour
             {
 				fCurrentSpeed += fSpeedIncreasePerTap;
 			}
+*/
+			fCurrentSpeed += fSpeedIncreasePerTap;
+
 		}
 
 		float targetSpeed = fCurrentSpeed;
@@ -269,7 +296,8 @@ public class TapToRunController : MonoBehaviour
 		//{
 		//	_speed = targetSpeed;
 		//}
-		_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+//		_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+		_animationBlend = targetSpeed;
 
 		// For Racing Game, always use the forward vector
 		Vector3 inputDirection = Vector3.forward;
